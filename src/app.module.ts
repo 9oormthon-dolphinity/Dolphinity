@@ -7,12 +7,36 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { UserEntity } from './reviews/reviews.entity';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { ReviewEntity } from './users/users.entity';
+import { BoardEntity } from './boards/boards.entity';
+
+const typeOrmModuleOptions = {
+  useFactory: async (): Promise<TypeOrmModuleOptions> => ({
+    namingStrategy: new SnakeNamingStrategy(),
+    type: 'mysql',
+    host: process.env.DB_HOST,
+    port: +process.env.DB_PORT,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    entities: [UserEntity, ReviewEntity, BoardEntity],
+    synchronize: true,
+    autoLoadEntities: true,
+    logging: true,
+    keepConnectionAlive: true,
+    timezone: 'Z',
+  }),
+};
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     UsersModule,
     BoardsModule,
     ReviewsModule,
