@@ -1,19 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/common.entity';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/users/users.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({
-  name: 'USER',
+  name: 'REVIEW',
 })
-export class UserEntity extends CommonEntity {
+export class ReviewEntity extends CommonEntity {
   @ApiProperty({
-    example: 'stark',
-    description: '사용자 닉네임(unique)',
+    example: '돌고래 목격 햇어용',
+    description: '댓글 내용',
     required: true,
   })
   @IsString()
   @IsNotEmpty()
-  @Column({ type: 'timestamp', unique: true, nullable: false })
-  nickname: string;
+  @Column({ type: 'varchar', nullable: false })
+  content: string;
+
+  @ManyToOne(() => UserEntity, (author: UserEntity) => author.reviews)
+  @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
+  author: UserEntity;
 }
