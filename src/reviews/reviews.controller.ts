@@ -1,9 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiConsumes, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { ApiConsumes, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { SuccessInterceptor } from 'src/common/success.interceptor';
 import { AddReviewDto } from './dto/review.add.dto';
 import { ReviewsService } from './reviews.service';
 
 @Controller('api/reviews')
+@UseInterceptors(SuccessInterceptor)
+@ApiTags('REVIEW')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
