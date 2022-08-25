@@ -98,8 +98,8 @@ export class BoardsController {
     status: 500,
     description: 'Internal server error',
   })
-  @Get('like')
-  async like(@Body() detailBoardDto: DetailBoardDto): Promise<BoardEntity> {
+  @Get('like/:id')
+  async like(@Param() detailBoardDto: DetailBoardDto): Promise<BoardEntity> {
     return await this.boardsService.like(detailBoardDto);
   }
 
