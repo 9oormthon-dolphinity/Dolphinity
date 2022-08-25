@@ -81,6 +81,18 @@ export class BoardEntity extends CommonEntity {
   })
   discovery: Date;
 
+  @ApiProperty({
+    example: '3',
+    description: '좋아요 숫자',
+  })
+  @IsNumber()
+  @Column({
+    type: 'int',
+    nullable: false,
+    default: 0,
+  })
+  like: number;
+
   @ManyToOne(() => UserEntity, (author: UserEntity) => author.boards)
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
   author: UserEntity;
