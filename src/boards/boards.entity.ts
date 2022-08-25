@@ -86,10 +86,9 @@ export class BoardEntity extends CommonEntity {
     example: '3',
     description: '좋아요 숫자',
   })
-  @IsNumber()
   @Column({
     type: 'int',
-    nullable: false,
+    nullable: true,
     default: 0,
   })
   like: number;
