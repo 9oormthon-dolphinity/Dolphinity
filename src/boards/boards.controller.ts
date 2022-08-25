@@ -104,8 +104,8 @@ export class BoardsController {
 
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiResponse({
-    status: 201,
-    description: '게시물 좋아요 수',
+    status: 200,
+    description: '게시물 삭제',
   })
   @ApiResponse({
     status: 500,
