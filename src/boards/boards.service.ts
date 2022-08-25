@@ -71,4 +71,15 @@ export class BoardsService {
       throw new InternalServerErrorException(e.message);
     }
   }
+
+  async deleteBoard({ id }: DetailBoardDto) {
+    try {
+      const board = await this.boardsRepository.findOne({
+        where: { id },
+      });
+      return await this.boardsRepository.delete(board);
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
+  }
 }
