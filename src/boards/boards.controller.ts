@@ -86,4 +86,18 @@ export class BoardsController {
   ): Promise<BoardEntity> {
     return await this.boardsService.detailBoard(detailBoardDto);
   }
+
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiResponse({
+    status: 201,
+    description: '게시물 좋아요 수',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  @Post('like')
+  async like(@Body() detailBoardDto: DetailBoardDto): Promise<BoardEntity> {
+    return await this.boardsService.like(detailBoardDto);
+  }
 }
