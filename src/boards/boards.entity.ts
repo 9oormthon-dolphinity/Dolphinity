@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/common.entity';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/users/users.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({
   name: 'BOARD',
@@ -63,8 +64,12 @@ export class BoardEntity extends CommonEntity {
     description: '돌고래 목격 시간',
     required: true,
   })
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
-  @Column({ type: 'timestamp', nullable: false })
-  time: Date;
+  @Column({ type: 'varchar', nullable: false })
+  time: string;
+
+  @ManyToOne(() => UserEntity, (author: UserEntity) => author.boards)
+  @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
+  author: UserEntity;
 }
