@@ -1,19 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
+import { BoardEntity } from 'src/boards/boards.entity';
 import { CommonEntity } from 'src/common/common.entity';
-import { Column, Entity } from 'typeorm';
+import { ReviewEntity } from 'src/reviews/reviews.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({
-  name: 'REVIEW',
+  name: 'USER',
 })
-export class ReviewEntity extends CommonEntity {
+export class UserEntity extends CommonEntity {
   @ApiProperty({
-    example: '돌고래 목격 햇어용',
-    description: '댓글 내용',
+    example: 'stark',
+    description: '사용자 닉네임(unique)',
     required: true,
   })
   @IsString()
   @IsNotEmpty()
-  @Column({ type: 'varchar', nullable: false })
-  content: string;
+  @Column({ type: 'varchar', unique: true, nullable: false })
+  nickname: string;
+
+  @OneToMany(() => ReviewEntity, (review: ReviewEntity) => review.author, {
+    cascade: true,
+  })
+  reviews: ReviewEntity[];
+
+  @OneToMany(() => BoardEntity, (board: BoardEntity) => board.author, {
+    cascade: true,
+  })
+  boards: BoardEntity[];
 }
