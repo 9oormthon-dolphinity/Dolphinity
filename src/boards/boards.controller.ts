@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -81,9 +82,9 @@ export class BoardsController {
     status: 500,
     description: 'Internal server error',
   })
-  @Post('detail')
+  @Get('detail/:id')
   async detailBoard(
-    @Body() detailBoardDto: DetailBoardDto,
+    @Param() detailBoardDto: DetailBoardDto,
   ): Promise<BoardEntity> {
     return await this.boardsService.detailBoard(detailBoardDto);
   }
@@ -97,7 +98,7 @@ export class BoardsController {
     status: 500,
     description: 'Internal server error',
   })
-  @Post('like')
+  @Get('like')
   async like(@Body() detailBoardDto: DetailBoardDto): Promise<BoardEntity> {
     return await this.boardsService.like(detailBoardDto);
   }
