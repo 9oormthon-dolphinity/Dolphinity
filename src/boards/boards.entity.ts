@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/common.entity';
 import { UserEntity } from 'src/users/users.entity';
@@ -52,12 +53,19 @@ export class BoardEntity extends CommonEntity {
     example:
       'https://toiletprofile.s3.ap-northeast-2.amazonaws.com/Profile-Image.svg',
     description: '돌고래 사진',
-    required: true,
+  })
+  @Column({ type: 'varchar', nullable: true })
+  img: string;
+
+  @ApiProperty({
+    example:
+      '유명한 애월 돌고래 전망대에서 오후 4시쯤에 귀여운 남방큰 돌고래를 목격했어요^^ 누군지는 모르겠지만 제돌이 같은 느낌이 들어요 :) 여러분도 보러가보세용 ㅎㅎㅎㅎ ><><',
+    description: '돌고래 목격 상황 작성',
   })
   @IsString()
   @IsNotEmpty()
-  @Column({ type: 'varchar', nullable: false })
-  img: string;
+  @Column({ type: 'varchar', nullable: true })
+  situation: string;
 
   @ApiProperty({
     example: '15시 33분',
