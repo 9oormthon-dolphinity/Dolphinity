@@ -46,11 +46,11 @@ export class BoardsController {
     description: 'Internal server error',
   })
   @Post('register')
-  async addBoard(@Body() boardAddDto: BoardAddDto): Promise<BoardEntity> {
+  async addBoard(@Body() boardEntity: BoardEntity): Promise<BoardEntity> {
     const imageUrl = this.imgUrl;
     this.imgUrl = null;
     return await this.boardsService.addBoard({
-      ...boardAddDto,
+      ...boardEntity,
       img: imageUrl,
     });
   }

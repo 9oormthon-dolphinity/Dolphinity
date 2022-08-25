@@ -22,8 +22,7 @@ export class BoardsService {
     }
   }
 
-  async addBoard(boardAddDto: BoardAddDto): Promise<BoardEntity> {
-    const { id, title, address, lat, lng, img, discovery } = boardAddDto;
+  async addBoard(boardEntity: BoardEntity): Promise<BoardEntity> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -31,12 +30,12 @@ export class BoardsService {
       const author = await queryRunner.manager
         .getRepository(UserEntity)
         .findOne({
-          where: { id },
+          where: { id: 1 },
           relations: ['boards'],
         });
       const board = queryRunner.manager
         .getRepository(BoardEntity)
-        .create({ title, address, lat, lng, img, discovery });
+        .create(boardEntity);
       author.boards.push(board);
       await queryRunner.manager.getRepository(UserEntity).save(author);
       await queryRunner.commitTransaction();
