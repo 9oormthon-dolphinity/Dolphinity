@@ -12,7 +12,7 @@ import { SuccessInterceptor } from 'src/common/success.interceptor';
 import { multerOptions } from 'src/common/utils/multer.options';
 import { BoardEntity } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { BoardAddDto } from './dto/boards.add.dto';
+import { DetailBoardDto } from './dto/boards.detail.dto';
 
 @Controller('api/boards')
 @UseInterceptors(SuccessInterceptor)
@@ -65,7 +65,25 @@ export class BoardsController {
   })
   @UseInterceptors(FileInterceptor('image', multerOptions('dolphins')))
   @Post('upload')
-  async imageUpload(@UploadedFile() file: Express.Multer.File) {
-    this.imgUrl = `http://localhost:5000/media/dolphins/${file.filename}`;
+  async imageUpload(@UploadedFile() file) {
+    this.imgUrl =
+      process.env.NODE_ENV == 'dev'
+        ? `http://localhost:5000/media/dolphins/${file.filename}`
+        : `${process.env.APP_URL}/media/dolphins/${file.filename}`;
+  }
+
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiResponse({
+    status: 200,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  @Post('detail')
+  async detailBoard(
+    @Body() detailBoardDto: DetailBoardDto,
+  ): Promise<BoardEntity> {
+    return await this.boardsService.detailBoard(detailBoardDto);
   }
 }

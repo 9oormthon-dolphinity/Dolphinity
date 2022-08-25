@@ -5,6 +5,7 @@ import { Repository, DataSource } from 'typeorm';
 
 import { BoardEntity } from './boards.entity';
 import { BoardAddDto } from './dto/boards.add.dto';
+import { DetailBoardDto } from './dto/boards.detail.dto';
 
 @Injectable()
 export class BoardsService {
@@ -45,6 +46,17 @@ export class BoardsService {
       throw new InternalServerErrorException(e.message);
     } finally {
       await queryRunner.release();
+    }
+  }
+
+  async detailBoard({ id }: DetailBoardDto) {
+    try {
+      const board = await this.boardsRepository.findOne({
+        where: { id },
+      });
+      return board;
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
     }
   }
 }
