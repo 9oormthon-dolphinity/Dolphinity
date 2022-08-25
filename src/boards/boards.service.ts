@@ -59,4 +59,16 @@ export class BoardsService {
       throw new InternalServerErrorException(e.message);
     }
   }
+
+  async like({ id }: DetailBoardDto) {
+    try {
+      const board = await this.boardsRepository.findOne({
+        where: { id },
+      });
+      board.like += 1;
+      return await this.boardsRepository.save(board);
+    } catch (e) {
+      throw new InternalServerErrorException(e.message);
+    }
+  }
 }
