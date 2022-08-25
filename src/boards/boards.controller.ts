@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   UploadedFile,
@@ -99,5 +100,19 @@ export class BoardsController {
   @Post('like')
   async like(@Body() detailBoardDto: DetailBoardDto): Promise<BoardEntity> {
     return await this.boardsService.like(detailBoardDto);
+  }
+
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiResponse({
+    status: 201,
+    description: '게시물 좋아요 수',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  @Delete('delete')
+  async deleteBoard(@Body() detailBoardDto: DetailBoardDto) {
+    return await this.boardsService.deleteBoard(detailBoardDto);
   }
 }
