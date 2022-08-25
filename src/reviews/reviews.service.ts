@@ -18,6 +18,7 @@ export class ReviewsService {
   ) {}
 
   async addReview(addReviewDto: AddReviewDto) {
+    const random = Math.floor(Math.random() * 5 + 1);
     const { id, content } = addReviewDto;
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -25,7 +26,7 @@ export class ReviewsService {
     try {
       const author = await queryRunner.manager
         .getRepository(UserEntity)
-        .findOne({ where: { id: 1 }, relations: ['boards', 'reviews'] });
+        .findOne({ where: { id: random }, relations: ['boards', 'reviews'] });
 
       const board = await queryRunner.manager
         .getRepository(BoardEntity)
