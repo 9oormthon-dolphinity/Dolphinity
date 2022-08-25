@@ -47,6 +47,25 @@ export class BoardsController {
   })
   @Post('register')
   async addBoard(@Body() boardAddDto: BoardAddDto): Promise<BoardEntity> {
-    return await this.boardsService.addBoard(boardAddDto);
+    const imageUrl = this.imgUrl;
+    this.imgUrl = null;
+    return await this.boardsService.addBoard({
+      ...boardAddDto,
+      img: imageUrl,
+    });
+  }
+
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiResponse({
+    status: 201,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  @UseInterceptors(FileInterceptor('image', multerOptions('dolphins')))
+  @Post('upload')
+  async imageUpload(@UploadedFile() file: Express.Multer.File) {
+    this.imgUrl = `http://localhost:5000/media/dolphins/${file.filename}`;
   }
 }

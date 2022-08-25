@@ -9,6 +9,7 @@ export class BoardAddDto extends PickType(BoardEntity, [
   'lat',
   'lng',
   'img',
+  'situation',
   'discovery',
 ]) {
   @ApiProperty({
