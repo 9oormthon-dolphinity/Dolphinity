@@ -7,11 +7,11 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { ReviewsModule } from './reviews/reviews.module';
-import { UserEntity } from './reviews/reviews.entity';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { ReviewEntity } from './users/users.entity';
 import { BoardEntity } from './boards/boards.entity';
+import { UserEntity } from './users/users.entity';
+import { ReviewEntity } from './reviews/reviews.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (): Promise<TypeOrmModuleOptions> => ({
