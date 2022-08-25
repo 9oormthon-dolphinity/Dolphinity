@@ -3,6 +3,7 @@ import { ApiConsumes, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuccessInterceptor } from 'src/common/success.interceptor';
 import { BoardEntity } from './boards.entity';
 import { BoardsService } from './boards.service';
+import { BoardAddDto } from './dto/boards.add.dto';
 
 @Controller('api/boards')
 @UseInterceptors(SuccessInterceptor)
@@ -33,7 +34,7 @@ export class BoardsController {
     description: 'Internal server error',
   })
   @Post('register')
-  async addBoard(@Body() boardEntity: BoardEntity): Promise<BoardEntity> {
-    return await this.boardsService.addBoard(boardEntity);
+  async addBoard(@Body() boardAddDto: BoardAddDto): Promise<BoardEntity> {
+    return await this.boardsService.addBoard(boardAddDto);
   }
 }
