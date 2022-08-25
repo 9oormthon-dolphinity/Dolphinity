@@ -78,7 +78,7 @@ export class BoardsService {
       const board = await this.boardsRepository.findOne({
         where: { id },
       });
-      return await this.boardsRepository.delete(board);
+      return await this.boardsRepository.remove(board);
     } catch (e) {
       throw new InternalServerErrorException(e.message);
     }

@@ -112,8 +112,8 @@ export class BoardsController {
     status: 500,
     description: 'Internal server error',
   })
-  @Delete('delete')
-  async deleteBoard(@Body() detailBoardDto: DetailBoardDto) {
+  @Delete('delete/:id')
+  async deleteBoard(@Param() detailBoardDto: DetailBoardDto) {
     return await this.boardsService.deleteBoard(detailBoardDto);
   }
 }
