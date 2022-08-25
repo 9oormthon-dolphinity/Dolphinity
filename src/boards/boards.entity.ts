@@ -67,7 +67,7 @@ export class BoardEntity extends CommonEntity {
   @IsString()
   @IsNotEmpty()
   @Column({ type: 'varchar', nullable: false })
-  time: string;
+  discovery: string;
 
   @ManyToOne(() => UserEntity, (author: UserEntity) => author.boards)
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
