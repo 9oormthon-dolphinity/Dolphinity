@@ -2,8 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/common.entity';
+import { ReviewEntity } from 'src/reviews/reviews.entity';
 import { UserEntity } from 'src/users/users.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({
   name: 'BOARD',
@@ -96,4 +97,9 @@ export class BoardEntity extends CommonEntity {
   @ManyToOne(() => UserEntity, (author: UserEntity) => author.boards)
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
   author: UserEntity;
+
+  @OneToMany(() => ReviewEntity, (review: ReviewEntity) => review.board, {
+    cascade: true,
+  })
+  reviews: ReviewEntity[];
 }
