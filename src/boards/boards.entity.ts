@@ -74,8 +74,12 @@ export class BoardEntity extends CommonEntity {
   })
   @IsString()
   @IsNotEmpty()
-  @Column({ type: 'varchar', nullable: false })
-  discovery: string;
+  @Column({
+    type: 'timestamp',
+    nullable: false,
+    default: '1970-01-01 00:00:01',
+  })
+  discovery: Date;
 
   @ManyToOne(() => UserEntity, (author: UserEntity) => author.boards)
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
