@@ -53,6 +53,7 @@ export class BoardsService {
     try {
       const board = await this.boardsRepository.findOne({
         where: { id },
+        relations: ['reviews'],
       });
       return board;
     } catch (e) {
